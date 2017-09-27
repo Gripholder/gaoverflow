@@ -1,0 +1,8 @@
+<h1>{{question.content}}</h1>
+<h3>{{question.answer}}</h3>
+
+
+<form action="/{{question._id}}" method="post">
+  <input name="question[answer]" type="text" placeholder="Answer"/>
+  <button type="submit">Submit Answer</button>
+</form>

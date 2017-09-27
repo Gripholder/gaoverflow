@@ -1,7 +1,7 @@
-var mongoose = require("./connection")
+var mongoose = require("./connection.js")
 
 var Question = mongoose.model("Question")
 
-Question.remove({}).thn(() => {
+Question.remove({}).then(() => {
   process.exit()
 })

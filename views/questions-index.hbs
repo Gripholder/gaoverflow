@@ -1,0 +1,11 @@
+<h2>questions</h2>
+{{#each questions as |question|}}
+<h3>
+  <a href="{{question.id}}">{{question.content}}</a>
+</h3>
+{{/each}}
+
+<form action="/" method="post">
+  <input name="question[content]" type="text" placeholder="Question"/>
+  <button type="submit">Submit Question</button>
+</form>

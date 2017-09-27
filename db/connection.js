@@ -1,11 +1,9 @@
-var mongoose = requrie("mongoose");
+var mongoose = require("mongoose");
 
 
 var QuestionSchema = new mongoose.Schema({
-  body: String
-})
-var AnswerSchema = new mongoose.Schema({
-  body: String
+  content: String,
+  answer: String
 })
 
 mongoose.model("Question", QuestionSchema)
