@@ -29,6 +29,12 @@ app.get("/", (req, res) => {
   })
 })
 
+app.get("/api/questions", (req, res) => {
+  Question.find({}).then(questions => {
+    res.json(questions)
+  })
+})
+
 app.get("/:id", (req, res) => {
   var id = req.params._id
   Question.findOne({id: id}).then(question => {
