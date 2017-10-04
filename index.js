@@ -6,7 +6,11 @@ var app      = express()
 
 var Question = mongoose.model("Question")
 
-app.set("port", process.env.PORT || 3000);
+app.listen(4000, () => {
+  console.log("app listening on port 4000")
+})
+
+// app.set("port", process.env.PORT || 3000);
 app.set("view engine", "hbs");
 // app.engine(".hbs", hbs({
 //   extname:        ".hbs",
@@ -34,7 +38,7 @@ app.get("/api/questions", (req, res) => {
   })
 })
 
-app.get("/api/questions", (req, res) => {
+app.get("/api/questions/:name", (req, res) => {
   Question.findOne(req.params).then(function (question){
     res.json(question)
   })
