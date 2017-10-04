@@ -7,6 +7,6 @@ var QuestionSchema = new mongoose.Schema({
 })
 
 mongoose.model("Question", QuestionSchema)
-mongoose.connect("mongodb://localhost/gaoverflow")
+mongoose.connect("mongodb://gaoverflow:Mohd1997@ds147544.mlab.com:47544/react-translator-api")
 
 module.exports = mongoose
