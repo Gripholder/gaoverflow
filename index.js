@@ -1,13 +1,12 @@
-var express = require("express")
+var express  = require("express")
+var hbs      = require("express-handlebars")
 var mongoose = require("./db/connection.js")
+var parser   = require("body-parser")
 
-const app = express()
-
+var app      = express()
 var Question = mongoose.model("Question")
 
-app.listen(4000, () => {
-  console.log("app listening on port 4000")
-})
+app.set("port", process.env.PORT || 4000);
 
 app.set("view engine", "hbs")
 const bodyParser = require("body-parser")
@@ -36,6 +35,21 @@ app.get("/:id", (req, res) => {
   })
 })
 
+app.put("/api/Questions/:name", function(req, res){
+  if(req.session.current_user){
+    Question.findOne(req.params).then(function(Question){
+      if(Question._id !== req.session.current_user._id){
+        res.json({failure: true});
+      }else{
+        Question.update(Question, req.body, {new: true}).then(function(Question){
+          res.json(Question);
+        });
+      }
+    });
+  }else{
+    res.json({failure: true})Question
+  }
+});
 app.post("/", (req, res) => {
   Question.create(req.body.question).then(question => {
     res.redirect("/")
