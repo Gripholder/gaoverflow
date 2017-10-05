@@ -41,14 +41,15 @@ app.get("/api/questions", (req, res) => {
 })
 
 app.get("/:id", (req, res) => {
-  var id = req.params._id
-  Question.find({"_id": ObjectId(`${id}`)}).then(question => {
+  var id = req.params.id
+  Question.findOne({ _id: id }).then(question => {
       res.render("questions-show.hbs", {question: question})
   })
 })
 
 app.get("/api/questions/:id", (req, res) => {
-  Question.findOne({ id: req.params._id }).then(question => {
+  var id = req.params.id
+  Question.findOne({ _id: id }).then(question => {
     console.log("hey")
     res.json(question)
   })
@@ -71,5 +72,17 @@ app.post("/:_id", (req, res) => {
   var id = req.params._id
   Question.findOneAndUpdate({_id: id}, req.body.question, {new: true}).then(question => {
       res.redirect(`/${id}`)
+  })
+})
+app.post("/api/questions/:id/edit", (req, res) => {
+  var id = req.params.id
+  Question.findOneAndUpdate({ _id: id }, req.body, {new: true}).then(question => {
+      res.json(question)
+  })
+})
+app.post("/api/questions/:id/delete", (req, res) => {
+  var id = req.params.id
+  Question.findOneAndRemove({ _id: id }).then(question => {
+      res.json(question)
   })
 })
