@@ -17,8 +17,6 @@ app.listen(4000, () => {
 
 app.set("view engine", "hbs")
 
-var express  = require("express")
-
 app.use("/assets", express.static("public"))
 app.use(bodyParser.json({
   extended: true
