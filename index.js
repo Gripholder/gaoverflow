@@ -1,19 +1,24 @@
-var express = require("express")
-var mongoose = require("./db/connection.js")
+const express    = require("express")
+const cors       = require("cors")
+const mongoose   = require("./db/connection.js")
+const bodyParser = require("body-parser")
 
+
+
+const Question = mongoose.model("Question")
 const app = express()
 
-var Question = mongoose.model("Question")
+  app.use(cors())
+
 
 app.listen(4000, () => {
   console.log("app listening on port 4000")
 })
 
 app.set("view engine", "hbs")
-const bodyParser = require("body-parser")
 
 app.use("/assets", express.static("public"))
-app.use(bodyParser.urlencoded({
+app.use(bodyParser.json({
   extended: true
 }))
 // app.engine(".hbs", hbs({
@@ -29,16 +34,36 @@ app.get("/", (req, res) => {
   })
 })
 
+app.get("/api/questions", (req, res) => {
+  Question.find({}).then(questions => {
+    res.json(questions)
+  })
+})
+
 app.get("/:id", (req, res) => {
   var id = req.params._id
-  Question.findOne({id: id}).then(question => {
+  Question.find({"_id": ObjectId(`${id}`)}).then(question => {
       res.render("questions-show.hbs", {question: question})
+  })
+})
+
+app.get("/api/questions/:id", (req, res) => {
+  Question.findOne({ id: req.params._id }).then(question => {
+    console.log("hey")
+    res.json(question)
   })
 })
 
 app.post("/", (req, res) => {
   Question.create(req.body.question).then(question => {
     res.redirect("/")
+  })
+})
+
+app.post("/api/questions", (req, res) => {
+  console.log(req.body);
+  Question.create(req.body).then(question => {
+    res.json(question)
   })
 })
 
