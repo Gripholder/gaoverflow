@@ -41,6 +41,11 @@ app.post("/", (req, res) => {
     res.redirect("/")
   })
 })
+app.post("/questions", (req,res) =>{
+  Question.create(req.body.question).then(question => {
+    res.redirect("/questions/" + question.name)
+  })
+})
 app.post("/:_id", (req, res) => {
   var id = req.params._id
   Question.findOneAndUpdate({_id: id}, req.body.question, {new: true}).then(question => {
