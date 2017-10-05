@@ -17,17 +17,12 @@ app.listen(4000, () => {
 
 app.set("view engine", "hbs")
 
+var express  = require("express")
+
 app.use("/assets", express.static("public"))
 app.use(bodyParser.json({
   extended: true
 }))
-// app.engine(".hbs", hbs({
-//   extname: ".hbs",
-//   partialsDir: "views/",
-//   layoutsDir: "views/",
-//   defaultLayout: "layout-main"
-// }))
-
 app.get("/", (req, res) => {
   Question.find({}).then(questions => {
     res.render("questions-index.hbs", {questions: questions})
@@ -54,7 +49,6 @@ app.get("/api/questions/:id", (req, res) => {
     res.json(question)
   })
 })
-
 app.post("/", (req, res) => {
   Question.create(req.body.question).then(question => {
     res.redirect("/")
